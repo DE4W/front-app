@@ -91,7 +91,7 @@ function Home() {
       </header>
 
       <div className="filter-section" style={{ padding: '20px', textAlign: 'center' }}>
-        <label htmlFor="category-filter" style={{ marginRight: '10px', fontWeight: 'bold' }}>
+        <label htmlFor="category-filter" style={{ marginRight: '10px', fontWeight: 'bold', color: '#333' }}>
           Filter by Category:
         </label>
         <select
@@ -125,9 +125,6 @@ function Home() {
                 <h3 className="book-title">{book.title}</h3>
                 <p className="book-author">by {book.author}</p>
                 <p className="book-price">${book.price}</p>
-                <div className="book-details">
-                  <p className="book-description">{book.short_description}</p>
-                </div>
               </div>
               <button 
                 className="more-details-btn"

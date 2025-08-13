@@ -6,19 +6,33 @@ function BookDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const [book, setBook] = useState(null)
+  const [categoryName, setCategoryName] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const fetchBook = async () => {
+    const fetchBookAndCategory = async () => {
       try {
         setLoading(true)
-        const response = await fetch(`http://localhost:5000/books/${id}`)
-        if (!response.ok) {
+        const [bookResponse, categoriesResponse] = await Promise.all([
+          fetch(`http://localhost:5000/books/${id}`),
+          fetch('http://localhost:5000/categories')
+        ])
+        
+        if (!bookResponse.ok) {
           throw new Error('Book not found')
         }
-        const data = await response.json()
-        setBook(data)
+        if (!categoriesResponse.ok) {
+          throw new Error('Failed to fetch categories')
+        }
+        
+        const bookData = await bookResponse.json()
+        const categoriesData = await categoriesResponse.json()
+        
+        const category = categoriesData.find(cat => cat.category_id === bookData.category_id)
+        
+        setBook(bookData)
+        setCategoryName(category ? category.name : 'Unknown')
       } catch (err) {
         setError(err.message)
       } finally {
@@ -26,7 +40,7 @@ function BookDetail() {
       }
     }
 
-    fetchBook()
+    fetchBookAndCategory()
   }, [id])
   
   if (loading) {
@@ -90,8 +104,8 @@ function BookDetail() {
                 <span className="spec-value">{book.book_id}</span>
               </div>
               <div className="spec-item">
-                <span className="spec-label">Category ID:</span>
-                <span className="spec-value">{book.category_id}</span>
+                <span className="spec-label">Category:</span>
+                <span className="spec-value">{categoryName}</span>
               </div>
             </div>
           </div>

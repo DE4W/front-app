@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const [rows] = await db.execute('SELECT * FROM books WHERE id = ?', [req.params.id]);
+    const [rows] = await db.execute('SELECT * FROM books WHERE book_id = ?', [req.params.id]);
     if (rows.length === 0) {
       return res.status(404).json({ error: 'Book not found' });
     }

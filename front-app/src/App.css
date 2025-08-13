@@ -86,7 +86,7 @@ body {
 }
 
 .book-cover {
-  width: 180px;
+  width: 220px;
   height: 100%;
   overflow: hidden;
   flex-shrink: 0;
