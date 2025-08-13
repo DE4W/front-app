@@ -5,11 +5,11 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const [rows] = await db.execute('SELECT * FROM books');
+    const [rows] = await db.execute('SELECT * FROM categories');
     res.json(rows);
   } catch (error) {
-    console.error('Error fetching books:', error);
-    res.status(500).json({ error: 'Failed to fetch books' });
+    console.error('Error fetching categories:', error);
+    res.status(500).json({ error: 'Failed to fetch categories' });
   }
 });
 
